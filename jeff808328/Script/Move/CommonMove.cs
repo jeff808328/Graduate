@@ -13,22 +13,25 @@ public class CommonMove : MonoBehaviour
 
     #region 水平速度控制
     private float HorizonSpeedMax = 0; //速度上限
-    [SerializeField]  protected float HorizonSpeed = 0; // 運算用 & 當前值
+    protected float HorizonSpeed = 0; // 運算用 & 當前值
 
     private float AddSpeed = 0;
     private float MinusSpeed = 0;
-    [SerializeField] private int LastMoveDirection = 0;
+    private int LastMoveDirection = 0;
     #endregion
 
     #region 垂直速度控制
-    [SerializeField] private float VerticalSpeedMax = 0; //速度上限
+    protected float VerticalSpeedMax = 0; //速度上限
     protected float VerticalSpeed = 0; // 運算用 & 當前值
 
     private float Gravity;
     public float GravityAdjust;
+    public float GravityMax;
     #endregion
 
-    public float testnum;
+    protected bool GroundTouching;
+
+    // public float testnum;
 
     void Start()
     {
@@ -70,21 +73,22 @@ public class CommonMove : MonoBehaviour
             HorizonSpeed = Mathf.Clamp(HorizonSpeed, -HorizonSpeedMax, 0);
         }
 
+
         // 減速 最大或最小為0
     }
 
     protected void VerticalVelocity()
     {
-        Debug.Log("Vertical move work");
+        //Debug.Log("Vertical move work");
 
         VerticalSpeed = VerticalSpeedMax;
     }
 
     protected void GravityEffect()
     {
-        VerticalSpeed -= Gravity * Time.deltaTime * GravityAdjust;
+        VerticalSpeed += Gravity * Time.deltaTime * GravityAdjust;
 
-        VerticalSpeed = Mathf.Clamp(VerticalSpeed, 0, VerticalSpeedMax);
+        VerticalSpeed = Mathf.Clamp(VerticalSpeed, GravityMax, VerticalSpeedMax);
     }
 
 }

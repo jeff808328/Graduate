@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerMove : CommonMove
 {
-
-
     // Update is called once per frame
     void Update()
     {
+        GroundTouching = this.GetComponent<MoveStateDetect>().GroundTouching;
+
         if (Input.GetKey(KeyCode.A))
             HorizonVelocity(-1);
         else if (Input.GetKey(KeyCode.D))
@@ -21,9 +21,10 @@ public class PlayerMove : CommonMove
 
         GravityEffect();
 
+        if (GroundTouching)
+            VerticalSpeed = Mathf.Clamp(VerticalSpeed, 0, VerticalSpeedMax);
 
         FinalSpeed = new Vector2(HorizonSpeed, VerticalSpeed);
         Rd.velocity = FinalSpeed;
-
     }
 }

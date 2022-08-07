@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   MaxMoveSpeed: 8
-  AddSpeed: 2
-  MinusSpeed: 2
-  Gravity: 3
+  AddSpeed: 5
+  MinusSpeed: 4
+  Gravity: -5
   JumpSpeed: 10
