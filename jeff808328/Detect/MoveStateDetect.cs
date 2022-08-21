@@ -41,7 +41,7 @@ public class MoveStateDetect : MonoBehaviour
     private float RLWideAdjust;
 
     [SerializeField]
-    [Range(-20f, 20f)]
+    [Range(-5f, 5f)]
     private float RLHeightAdjust;
 
     #endregion

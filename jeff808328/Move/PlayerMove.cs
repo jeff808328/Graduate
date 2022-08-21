@@ -17,7 +17,10 @@ public class PlayerMove : CommonMove
             MiunsSpeed();
 
         if (Input.GetKeyDown(KeyCode.Space))
-            VerticalVelocity();
+        { 
+            CommonAnimator.JumpTrigger();
+            VerticalVelocity();          
+        }
 
         GravityEffect();
 

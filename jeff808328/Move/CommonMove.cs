@@ -13,7 +13,7 @@ public class CommonMove : MonoBehaviour
 
     #region 水平速度控制
     private float HorizonSpeedMax = 0; //速度上限
-    protected float HorizonSpeed = 0; // 運算用 & 當前值
+    public float HorizonSpeed = 0; // 運算用 & 當前值
 
     private float AddSpeed = 0;
     private float MinusSpeed = 0;
@@ -22,7 +22,7 @@ public class CommonMove : MonoBehaviour
 
     #region 垂直速度控制
     protected float VerticalSpeedMax = 0; //速度上限
-    protected float VerticalSpeed = 0; // 運算用 & 當前值
+    public float VerticalSpeed = 0; // 運算用 & 當前值
 
     private float Gravity;
     public float GravityAdjust;
@@ -31,7 +31,9 @@ public class CommonMove : MonoBehaviour
 
     protected bool GroundTouching;
 
-    // public float testnum;
+    protected CommonAnimator CommonAnimator;
+
+    public bool DoingAction;
 
     void Start()
     {
@@ -43,11 +45,13 @@ public class CommonMove : MonoBehaviour
         Gravity = ChatacterData.Gravity;
 
         Rd = this.GetComponent<Rigidbody2D>();
+
+        CommonAnimator = this.GetComponent<CommonAnimator>();  
     }
 
     protected void HorizonVelocity(int Direction)
     {
-        Debug.Log("Horizon move work");
+      //  Debug.Log("Horizon move work");
 
         // HorizonSpeed = HorizonSpeedMax * Direction;
         //  鬆開btn即停止
