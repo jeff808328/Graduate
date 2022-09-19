@@ -12,7 +12,7 @@ public class PlayerAttack : CommonAttack
         {
             Attack();
 
-            Animator.SetTrigger("Attack");
+            Animator.AttackTrigger();
 
             LastAttackTime = Time.time;
         }

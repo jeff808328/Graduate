@@ -41,19 +41,19 @@ public class CommonAttack : MonoBehaviour
     public float AttackCD;
     protected float LastAttackTime;
 
-    protected Animator Animator;
+    protected CommonAnimator Animator;
     public ChatacterData ChatacterData;
 
     private void Start()
     {
-        Animator = this.GetComponent<Animator>();
+        Animator = this.GetComponent<CommonAnimator>();
 
         UpdataCollision();
     }
 
     protected void Attack()
     {
-        StartCoroutine(HitCheck());
+        StartCoroutine(HitCheck());     
     }
 
     private IEnumerator HitCheck()
@@ -70,7 +70,6 @@ public class CommonAttack : MonoBehaviour
         var AttackDectect = Physics2D.OverlapBoxAll(BoxCenter, BoxSize, 0, Attackable);
        
      
-
         yield return new WaitForSecondsRealtime(Attacking);
         // °Ê§@¤¤
 
@@ -91,7 +90,8 @@ public class CommonAttack : MonoBehaviour
 
     protected void UpdataCollision()
     {
-        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust, transform.position.y + BoxHighAdjust);
+        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * transform.localScale.x, 
+                                   transform.position.y + BoxHighAdjust * transform.localScale.y);
 
         BoxSize = new Vector2(transform.lossyScale.x * BoxWide, transform.lossyScale.y * BoxHeight);
     }

@@ -45,6 +45,7 @@ public class CommonHP : MonoBehaviour
         if(HP <= 0)
         {
            Animator.SetBool("Die",true);
+           this.gameObject.layer = 0;
            Invoke("Disappear", DisappearTime);
         }     
     }
@@ -57,6 +58,6 @@ public class CommonHP : MonoBehaviour
 
     public void ResetEnemy(Vector3 GeneratePoint)
     {
-        
+        this.gameObject.layer = 7;
     }
 }
