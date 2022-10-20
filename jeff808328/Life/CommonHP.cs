@@ -9,6 +9,7 @@ public class CommonHP : MonoBehaviour
 
     private float HP;
     private float Def;
+    private float HurtAdjust;
 
     protected Animator Animator;
 
@@ -22,6 +23,7 @@ public class CommonHP : MonoBehaviour
     {
         HP = ChatacterData.HP;
         Def = ChatacterData.Def;
+        HurtAdjust = 1;
 
         Fill.color = Gradient.Evaluate(1f);
 
@@ -30,7 +32,7 @@ public class CommonHP : MonoBehaviour
 
     public void Hurt(float AttackerAtk)
     {
-        HP -= AttackerAtk - Def;
+        HP -= (AttackerAtk - Def) * HurtAdjust;
 
         Slider.value = HP;
         Fill.color = Gradient.Evaluate(Slider.normalizedValue);
@@ -40,7 +42,12 @@ public class CommonHP : MonoBehaviour
         DieCheck();
     }
 
-    public void DieCheck()
+    public void HurtAdjustSet(int Value)
+    {
+        HurtAdjust = Value;
+    }
+
+public void DieCheck()
     {
         if(HP <= 0)
         {

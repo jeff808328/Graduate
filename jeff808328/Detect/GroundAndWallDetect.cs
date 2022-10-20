@@ -29,38 +29,30 @@ public class GroundAndWallDetect : MonoBehaviour
     #region RLbox data
 
     [SerializeField]
-    [Range(0, 20f)]
     private float RLBoxWide;
 
     [SerializeField]
-    [Range(0, 20f)]
     private float RLBoxHeight;
 
     [SerializeField]
-    [Range(0, 20f)]
     private float RLWideAdjust;
 
     [SerializeField]
-    [Range(-5f, 5f)]
     private float RLHeightAdjust;
 
     #endregion
 
     #region
     [SerializeField]
-    [Range(0, 20f)]
     private float BotBoxWide;
 
     [SerializeField]
-    [Range(0, 20f)]
     private float BotBoxHeight;
 
     [SerializeField]
-    [Range(0, 20f)]
     private float BotWideAdjust;
 
     [SerializeField]
-    [Range(0, 20f)]
     private float BotHeightAdjust;
 
     #endregion
@@ -80,8 +72,8 @@ public class GroundAndWallDetect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //BotDetectSize = new Vector2(transform.lossyScale.x * BotBoxWide,
-        //                            transform.lossyScale.y * BotBoxHeight);
+        BotDetectSize = new Vector2(transform.lossyScale.x * BotBoxWide,
+                                    transform.lossyScale.y * BotBoxHeight);
 
         RLDetectSize = new Vector2(transform.lossyScale.x * RLBoxWide,
                                    transform.lossyScale.y * RLBoxHeight);

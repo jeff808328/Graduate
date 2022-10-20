@@ -9,11 +9,9 @@ public class CommonAttack : MonoBehaviour
     protected Vector2 BoxCenter;
 
     [SerializeField]
-    [Range(0, 2f)]
     private float BoxWideAdjust;
 
     [SerializeField]
-    [Range(0, 2f)]
     private float BoxHighAdjust;
 
     #endregion
@@ -23,11 +21,9 @@ public class CommonAttack : MonoBehaviour
     protected Vector2 BoxSize;
 
     [SerializeField]
-    [Range(0, 2f)]
     private float BoxWide;
 
     [SerializeField]
-    [Range(0, 2f)]
     private float BoxHeight;
 
     #endregion 
@@ -42,29 +38,43 @@ public class CommonAttack : MonoBehaviour
     protected float LastAttackTime;
 
     protected CommonAnimator Animator;
+    protected CommonMove CommonMove;
     public ChatacterData ChatacterData;
+
+    protected PlayerState PlayerState;
 
     private void Start()
     {
         Animator = this.GetComponent<CommonAnimator>();
 
+        PlayerState = this.GetComponent<PlayerState>();
+
+        CommonMove = this.GetComponent<CommonMove>();
+
         UpdataCollision();
+
+        gameObject.GetComponent<PlayerState>().ResetAttack(0);
+
+        LastAttackTime = Time.time;
+
+        AttackCD = ChatacterData.AtkCD;
     }
 
-    protected void Attack()
+    public void Attack()
     {
         StartCoroutine(HitCheck());     
     }
 
     private IEnumerator HitCheck()
     {
+      //  Debug.Log("Prepare Attack");
 
-        Debug.Log("Prepare Attack");
+        LastAttackTime = Time.time;
 
         yield return new WaitForSecondsRealtime(BeforeAttack);     
         // 前搖
 
-        Debug.Log("Attack Start");
+     //   Debug.Log("Attack Start");
 
         // 檢查有沒有可攻擊物件
         var AttackDectect = Physics2D.OverlapBoxAll(BoxCenter, BoxSize, 0, Attackable);
@@ -73,7 +83,7 @@ public class CommonAttack : MonoBehaviour
         yield return new WaitForSecondsRealtime(Attacking);
         // 動作中
 
-        Debug.Log("Attack End");
+       // Debug.Log("Attack End");
 
         // 造成傷害
         foreach(var Attacked in AttackDectect)
@@ -90,7 +100,7 @@ public class CommonAttack : MonoBehaviour
 
     protected void UpdataCollision()
     {
-        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * transform.localScale.x, 
+        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * CommonMove.LastMoveDirection, 
                                    transform.position.y + BoxHighAdjust * transform.localScale.y);
 
         BoxSize = new Vector2(transform.lossyScale.x * BoxWide, transform.lossyScale.y * BoxHeight);

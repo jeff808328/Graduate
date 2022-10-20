@@ -5,28 +5,31 @@ using UnityEngine;
 public class CommonAnimator : MonoBehaviour
 {
     private Animator Animator;
-    private CommonMove MoveDetail;
-    private GroundAndWallDetect MoveStateDetect;
+    private CommonMove CommonMove;
+    private GroundAndWallDetect GroundAndWallDetect;
+    private PlayerState PlayerState;
 
     private string JumpTriggerName = "VerticalSpeed";
     private string RunTriggerName = "HorizonSpeed";
-
 
     void Start()
     {
         Animator = this.GetComponent<Animator>();
 
-        MoveDetail = this.GetComponent<CommonMove>();
+        CommonMove = this.GetComponent<CommonMove>();
 
-        MoveStateDetect = this.GetComponent<GroundAndWallDetect>();
+        GroundAndWallDetect = this.GetComponent<GroundAndWallDetect>();
+
+        PlayerState = this.GetComponent<PlayerState>();
     }
-
 
     void Update()
     {
         MoveSpeed();
-
+        DirectionSet();
+        WallTouchingTrigger();
         LandingTrigger();
+        CancelAble();
     }
 
     public void JumpTrigger()
@@ -36,18 +39,40 @@ public class CommonAnimator : MonoBehaviour
 
     protected void LandingTrigger()
     {
-        Animator.SetBool("GroundTouching", MoveStateDetect.GroundTouching);
+        Animator.SetBool("GroundTouching", GroundAndWallDetect.GroundTouching);
     }
 
-    public void AttackTrigger()
+    protected void WallTouchingTrigger()
     {
-        Animator.SetTrigger("Attack");
+        Animator.SetBool("WallTouching",GroundAndWallDetect.WallTouching);
+    }
+
+    protected void DirectionSet()
+    {
+        Animator.SetInteger("Direction",CommonMove.LastMoveDirection);
+    }
+
+    public void AttackTrigger(int i)
+    {
+        Animator.SetTrigger("Attack" + i.ToString());
+
+       // Debug.Log("attack" + i);
     }
 
     protected void MoveSpeed()
     {
-        Animator.SetFloat(JumpTriggerName, MoveDetail.VerticalSpeed);
-        Animator.SetFloat(RunTriggerName, Mathf.Abs(MoveDetail.HorizonSpeed));
+        Animator.SetFloat(JumpTriggerName, CommonMove.VerticalSpeed);
+        Animator.SetFloat(RunTriggerName, Mathf.Abs(CommonMove.HorizonSpeed));
+    }
+
+    protected void CancelAble()
+    {
+        Animator.SetBool("CancelAble", PlayerState.CancelAble);
+    }
+
+    public void RollTrigger()
+    {
+        Animator.SetTrigger("Roll");
     }
 
 }
