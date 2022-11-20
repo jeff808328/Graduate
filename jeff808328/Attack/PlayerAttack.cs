@@ -14,22 +14,13 @@ public class PlayerAttack : CommonAttack
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (ComboAble & Combo < 4 & Time.time > LastAttackTime + ComboLimitTime)
+            if (ComboAble & Combo < 4 )
             {
                 ComboSet(0);
                 Animator.AttackTrigger(Combo);
                 Combo++;
             }
         }
-
-        //if (!this.gameObject.GetComponent<PlayerState>().DoingAction)
-        //{
-        //    if (Combo > 4)
-        //    {
-        //       gameObject.GetComponent<PlayerState>().ResetAttack(AttackCD);
-        //    }
-        //}
-
     }
 
     private void OnDrawGizmos()

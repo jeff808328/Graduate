@@ -12,6 +12,7 @@ public class CommonAnimator : MonoBehaviour
     private string JumpTriggerName = "VerticalSpeed";
     private string RunTriggerName = "HorizonSpeed";
 
+
     void Start()
     {
         Animator = this.GetComponent<Animator>();
@@ -29,7 +30,9 @@ public class CommonAnimator : MonoBehaviour
         DirectionSet();
         WallTouchingTrigger();
         LandingTrigger();
-        CancelAble();
+
+        if (CommonMove.UseCancel)
+            CancelAble();
     }
 
     public void JumpTrigger()
@@ -44,19 +47,19 @@ public class CommonAnimator : MonoBehaviour
 
     protected void WallTouchingTrigger()
     {
-        Animator.SetBool("WallTouching",GroundAndWallDetect.WallTouching);
+        Animator.SetBool("WallTouching", GroundAndWallDetect.WallTouching);
     }
 
     protected void DirectionSet()
     {
-        Animator.SetInteger("Direction",CommonMove.LastMoveDirection);
+        Animator.SetInteger("Direction", CommonMove.LastMoveDirection);
     }
 
     public void AttackTrigger(int i)
     {
         Animator.SetTrigger("Attack" + i.ToString());
 
-       // Debug.Log("attack" + i);
+        // Debug.Log("attack" + i);
     }
 
     protected void MoveSpeed()

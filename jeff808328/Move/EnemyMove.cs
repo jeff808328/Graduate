@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyMove : CommonMove
 {
 
+ 
     private void Update()
     {
-        HorizonVelocity(EnemyMoveDetect.MoveDirection);
 
         GravityEffect();
 

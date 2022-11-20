@@ -7,11 +7,13 @@ public class CommonMove : MonoBehaviour
     public ChatacterData ChatacterData;
     protected Rigidbody2D Rd;
 
-    [HideInInspector] public int LastMoveDirection = 1; //角色最後朝向
+    [HideInInspector] public int LastMoveDirection = 0; //角色最後朝向
     private Vector3 ScacleNow; // X值為角色當前朝向
     public bool UsingHorizonFlip;
 
     protected float RollCD;
+
+    public bool UseCancel;
 
     [SerializeField] protected Vector2 FinalSpeed = new Vector2(0, 0); // 最終運動速度
 

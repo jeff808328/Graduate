@@ -34,9 +34,6 @@ public class CommonAttack : MonoBehaviour
     public float Attacking;
     public float AfterAttack;
 
-    public float AttackCD;
-    protected float LastAttackTime;
-
     protected CommonAnimator Animator;
     protected CommonMove CommonMove;
     public ChatacterData ChatacterData;
@@ -54,10 +51,6 @@ public class CommonAttack : MonoBehaviour
         UpdataCollision();
 
         gameObject.GetComponent<PlayerState>().ResetAttack(0);
-
-        LastAttackTime = Time.time;
-
-        AttackCD = ChatacterData.AtkCD;
     }
 
     public void Attack()
@@ -69,8 +62,6 @@ public class CommonAttack : MonoBehaviour
     {
       //  Debug.Log("Prepare Attack");
 
-        LastAttackTime = Time.time;
-
         yield return new WaitForSecondsRealtime(BeforeAttack);     
         // 前搖
 
@@ -78,7 +69,7 @@ public class CommonAttack : MonoBehaviour
 
         // 檢查有沒有可攻擊物件
         var AttackDectect = Physics2D.OverlapBoxAll(BoxCenter, BoxSize, 0, Attackable);
-       
+         
      
         yield return new WaitForSecondsRealtime(Attacking);
         // 動作中

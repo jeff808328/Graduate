@@ -11,9 +11,6 @@ public class EnemyMoveDetect : MonoBehaviour
     public int MoveDirection;
     public float RaycastLenghth;
 
-    public LayerMask Ground;
-
-
     void Start()
     {
         MoveDirection = this.GetComponent<EnemyMove>().LastMoveDirection;

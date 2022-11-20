@@ -38,6 +38,8 @@ public class PlayerMove : CommonMove
 
         if (Input.GetKey(KeyCode.R) && PlayerState.CancelAble)
         {
+            Debug.Log("ROLL");
+
             CommonAnimator.RollTrigger();
 
             PlayerState.ResetRoll(RollCD);

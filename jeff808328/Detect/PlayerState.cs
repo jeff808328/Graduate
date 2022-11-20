@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     [HideInInspector] public bool DoingAction;
-    [HideInInspector] public bool CancelAble;
+     public bool CancelAble;
     private Animator Animator;
     
     private void Start()
