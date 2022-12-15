@@ -37,7 +37,8 @@ public class CommonHP : MonoBehaviour
         Slider.value = HP;
         Fill.color = Gradient.Evaluate(Slider.normalizedValue);
 
-        Animator.SetTrigger("Hurt");
+        if (HurtAdjust > 0)
+            Animator.SetTrigger("Hurt");
 
         DieCheck();
     }
@@ -47,18 +48,18 @@ public class CommonHP : MonoBehaviour
         HurtAdjust = Value;
     }
 
-public void DieCheck()
+    public void DieCheck()
     {
-        if(HP <= 0)
+        if (HP <= 0)
         {
-           Animator.SetBool("Die",true);
-           this.gameObject.layer = 0;
-           Invoke("Disappear", DisappearTime);
-        }     
+            Animator.SetBool("Die", true);
+            this.gameObject.layer = 0;
+            Invoke("Disappear", DisappearTime);
+        }
     }
 
     private void Disappear()
-    { 
+    {
         this.gameObject.SetActive(false);
         Slider.gameObject.SetActive(false);
     }

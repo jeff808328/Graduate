@@ -30,6 +30,6 @@ public class EnemyMoveDetect : MonoBehaviour
             MoveDirection *= -1;
         }
 
-    }
+    } // ¦aªO°»´ú
 
 }

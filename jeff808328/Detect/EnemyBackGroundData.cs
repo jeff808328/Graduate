@@ -6,11 +6,13 @@ public class EnemyBackGroundData : MonoBehaviour
 {
     #region PlayerDetect
 
-    [HideInInspector] public bool FacePlayer;
+    public bool FacePlayer;
 
     private Vector2 RayCastSourcePos;
 
-    public Vector2 RayCastDirection;
+    private Vector2 RayCastDirection;
+
+    public bool FlipRayDirection;
 
     // ¦Ò¼{¥ÎLayerMask°»´ú
 
@@ -20,7 +22,22 @@ public class EnemyBackGroundData : MonoBehaviour
 
     [SerializeField] private Transform PlayerPos;
     private float DistanceXray;
-    [HideInInspector] public int MoveDirection;
+    public int PlayerDirection;
+
+    // ¶ZÂ÷­È
+
+    // far¡Amid¡Anear¡Aramdon
+
+    public float MidMini;
+    private float MidMiniOri;
+
+    public float MidMax;
+    private float MidMaxOri;
+
+    public float RamdonValue;
+    public float Buffer;
+
+    public int ActionIndex; //0,dash 1,jump 2,walk
 
     #endregion
 
@@ -48,15 +65,27 @@ public class EnemyBackGroundData : MonoBehaviour
 
     #endregion
 
+    private EnemyStateManager StateManager;
+
 
     void Start()
     {
         AttackAble = false;
+
+        MidMaxOri = MidMax;
+        MidMiniOri = MidMini;
+
+        RandonDistance();
+
+        StateManager = this.GetComponent<EnemyStateManager>();
+
     }
 
     void Update()
     {
         RayCastSourcePos = new Vector2(transform.position.x + (0.5f * RayCastDirection.x), transform.position.y + 1);
+
+        SetRayDirection();
 
         SearchPlayer();
 
@@ -64,7 +93,7 @@ public class EnemyBackGroundData : MonoBehaviour
 
         CheckAttack();
 
-        Debug.DrawRay(RayCastSourcePos, RayCastDirection, Color.red, 1000f);
+        Debug.DrawRay(RayCastSourcePos, RayCastDirection, Color.yellow, 1000f);
     }
 
     private void SearchPlayer()
@@ -78,12 +107,16 @@ public class EnemyBackGroundData : MonoBehaviour
             FacePlayer = false;
 
             PlayerPos = null;
+
+            Debug.Log("lose player");
         }
         else if (RH.collider.tag == "Player")
         {
             FacePlayer = true;
 
             PlayerPos = RH.collider.gameObject.transform;
+
+            Debug.Log("find player" + RH.collider.name);
         }
 
     }
@@ -94,13 +127,20 @@ public class EnemyBackGroundData : MonoBehaviour
         {
             DistanceXray = Mathf.Abs(PlayerPos.transform.position.x - this.transform.position.x);
 
-            MoveDirection = ((PlayerPos.transform.position.x - this.transform.position.x) < 0) ? -1 : 1;
+            if (DistanceXray > MidMax)
+                ActionIndex = 0;
+            else if (DistanceXray < MidMini)
+                ActionIndex = 2;
+            else
+                ActionIndex = 1;
+
+            PlayerDirection = ((PlayerPos.transform.position.x - this.transform.position.x) < 0) ? -1 : 1;
         }
     }
 
     private void CheckAttack()
     {
-        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * MoveDirection,
+        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * PlayerDirection,
                            transform.position.y + BoxHighAdjust * transform.localScale.y);
 
         BoxSize = new Vector2(transform.lossyScale.x * BoxWide, transform.lossyScale.y * BoxHeight);
@@ -109,12 +149,34 @@ public class EnemyBackGroundData : MonoBehaviour
         AttackAble = Physics2D.OverlapBox(BoxCenter, BoxSize, 0, PlayerLayer);
     }
 
+    private void SetRayDirection()
+    {
+        if (FlipRayDirection)
+            RayCastDirection = new Vector2(-transform.lossyScale.x, 0);
+        else
+            RayCastDirection = new Vector2(transform.lossyScale.x, 0);
+    }
+
+    private void RandonDistance()
+    {
+        MidMax = MidMax + Random.Range(-RamdonValue - 1, RamdonValue + 1);
+        MidMini = MidMini + Random.Range(-RamdonValue - 1, RamdonValue + 1);
+
+        if(MidMax - MidMini < Buffer)
+        {
+            MidMax = MidMaxOri;
+            MidMini = MidMiniOri;
+
+            RandonDistance();
+        }
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.blue;
 
         Gizmos.DrawWireCube(BoxCenter, BoxSize);
     }
 
-
+    // °O±o¸É¤WÀð¾À°»´ú
 }

@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class PlayerMove : CommonMove
 {
-    [SerializeField] private int JumpTime;
+    private PlayerState PlayerState;
 
+    private void Start()
+    {
+        SetData();
+
+        SetComponent();
+
+        PlayerState = this.GetComponent<PlayerState>();
+    }
 
     void Update()
     {
@@ -19,26 +27,30 @@ public class PlayerMove : CommonMove
         }
         // 跳躍狀態重置
 
-        if (Input.GetKey(KeyCode.A))
-            HorizonVelocity(-1);
-        else if (Input.GetKey(KeyCode.D))
-            HorizonVelocity(1);
-        else
-            MiunsSpeed(); //沒按按鍵就開始減速
-        // 左右走加轉向
-
-        if (Input.GetKeyDown(KeyCode.Space) && JumpTime < MaxJumpTimes)
+        if (!PlayerState.DoingAction)
         {
-            CommonAnimator.JumpTrigger();
-            VerticalVelocity();
+            if (Input.GetKey(KeyCode.A))
+                HorizonVelocity(-1);
+            else if (Input.GetKey(KeyCode.D))
+                HorizonVelocity(1);
+            else
+                MiunsSpeed(); //沒按按鍵就開始減速
+                              // 左右走加轉向
 
-            JumpTime++;
+            if (Input.GetKeyDown(KeyCode.Space) && JumpTime < MaxJumpTimes)
+            {
+                CommonAnimator.JumpTrigger();
+                VerticalVelocity();
+
+                JumpTime++;
+            }
+            // 跳躍
         }
-        // 跳躍
 
         if (Input.GetKey(KeyCode.R) && PlayerState.CancelAble)
         {
             Debug.Log("ROLL");
+
 
             CommonAnimator.RollTrigger();
 

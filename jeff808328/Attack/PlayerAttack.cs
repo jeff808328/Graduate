@@ -8,6 +8,17 @@ public class PlayerAttack : CommonAttack
     [SerializeField] private bool ComboAble;
     public float ComboLimitTime;
 
+    private PlayerState PlayerState;
+
+    private void Start()
+    {
+        SetComponent();
+
+        PlayerState = this.GetComponent<PlayerState>();
+
+        PlayerState.ResetAttack(0);
+    }
+
     void Update()
     {
         UpdataCollision();

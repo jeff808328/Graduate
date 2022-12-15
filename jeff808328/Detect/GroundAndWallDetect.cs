@@ -22,7 +22,7 @@ public class GroundAndWallDetect : MonoBehaviour
 
     #endregion
 
-    Collider2D GroundDetect;
+    [HideInInspector] public Collider2D GroundDetect;
     Collider2D LeftWallDetect;
     Collider2D RightWallDetect;
 
@@ -42,7 +42,7 @@ public class GroundAndWallDetect : MonoBehaviour
 
     #endregion
 
-    #region
+    # region BoxSizeSetting
     [SerializeField]
     private float BotBoxWide;
 
@@ -54,6 +54,13 @@ public class GroundAndWallDetect : MonoBehaviour
 
     [SerializeField]
     private float BotHeightAdjust;
+
+    #endregion
+
+    #region Enable
+
+    public bool UseLeft;
+    public bool UseRight;
 
     #endregion
 
@@ -72,24 +79,28 @@ public class GroundAndWallDetect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BotDetectSize = new Vector2(transform.lossyScale.x * BotBoxWide,
-                                    transform.lossyScale.y * BotBoxHeight);
+        //BotDetectSize = new Vector2(transform.lossyScale.x * BotBoxWide,
+        //                            transform.lossyScale.y * BotBoxHeight);
 
-        RLDetectSize = new Vector2(transform.lossyScale.x * RLBoxWide,
-                                   transform.lossyScale.y * RLBoxHeight);
+        //RLDetectSize = new Vector2(transform.lossyScale.x * RLBoxWide,
+        //                           transform.lossyScale.y * RLBoxHeight);
 
-        BottomDetectPos = new Vector2(transform.position.x + BotWideAdjust,
-                                      transform.position.y + BotHeightAdjust);
+        //BottomDetectPos = new Vector2(transform.position.x + BotWideAdjust,
+        //                              transform.position.y + BotHeightAdjust);
 
-        RightDetectPos = new Vector2(transform.position.x + transform.lossyScale.x * 0.5f + RLWideAdjust,
-                                     transform.position.y + RLHeightAdjust);
+        //RightDetectPos = new Vector2(transform.position.x + transform.lossyScale.x * 0.5f + RLWideAdjust,
+        //                             transform.position.y + RLHeightAdjust);
 
-        LeftDetectPos = new Vector2(transform.position.x - transform.lossyScale.x * 0.5f - RLWideAdjust,
-                                     transform.position.y + RLHeightAdjust);
+        //LeftDetectPos = new Vector2(transform.position.x - transform.lossyScale.x * 0.5f - RLWideAdjust,
+        //                             transform.position.y + RLHeightAdjust);
 
-        GroundDetect = Physics2D.OverlapBox(BottomDetectPos, BotDetectSize, 0, Ground);
-        LeftWallDetect = Physics2D.OverlapBox(LeftDetectPos,RLDetectSize, 0, Wall);
-        RightWallDetect = Physics2D.OverlapBox (RightDetectPos,RLDetectSize, 0, Wall);
+        SetButtomBox();
+        SetSideBox();
+
+        //GroundDetect = Physics2D.OverlapBox(BottomDetectPos, BotDetectSize, 0, Ground);
+
+        //LeftWallDetect = Physics2D.OverlapBox(LeftDetectPos, RLDetectSize, 0, Wall);
+        //RightWallDetect = Physics2D.OverlapBox(RightDetectPos, RLDetectSize, 0, Wall);
 
         GroundTouching = GroundDetect;
 
@@ -98,6 +109,40 @@ public class GroundAndWallDetect : MonoBehaviour
         else
             WallTouching = false;
 
+    }
+
+    private void SetButtomBox()
+    {
+        BotDetectSize = new Vector2(transform.lossyScale.x * BotBoxWide,
+                              transform.lossyScale.y * BotBoxHeight);
+
+        BottomDetectPos = new Vector2(transform.position.x + BotWideAdjust,
+                                     transform.position.y + BotHeightAdjust);
+
+        GroundDetect = Physics2D.OverlapBox(BottomDetectPos, BotDetectSize, 0, Ground);
+
+    }
+
+    private void SetSideBox()
+    {
+        RLDetectSize = new Vector2(transform.lossyScale.x * RLBoxWide,
+                           transform.lossyScale.y * RLBoxHeight);
+
+        if (UseRight)
+        {
+            RightDetectPos = new Vector2(transform.position.x + transform.lossyScale.x * 0.5f + RLWideAdjust,
+                                     transform.position.y + RLHeightAdjust);
+
+            RightWallDetect = Physics2D.OverlapBox(RightDetectPos, RLDetectSize, 0, Wall);
+        }
+
+        if (UseLeft)
+        {
+            LeftDetectPos = new Vector2(transform.position.x - transform.lossyScale.x * 0.5f - RLWideAdjust,
+                                               transform.position.y + RLHeightAdjust);
+
+            LeftWallDetect = Physics2D.OverlapBox(LeftDetectPos, RLDetectSize, 0, Wall);
+        }
     }
 
     private void OnDrawGizmos()

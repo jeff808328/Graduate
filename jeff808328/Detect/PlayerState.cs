@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    [HideInInspector] public bool DoingAction;
-     public bool CancelAble;
+    public bool DoingAction;
+    public bool CancelAble;
     private Animator Animator;
-    
+
     private void Start()
     {
         DoingAction = false;
