@@ -62,6 +62,11 @@ public class CommonAnimator : MonoBehaviour
         // Debug.Log("attack" + i);
     }
 
+    public void AttackTrigger()
+    {
+        Animator.SetTrigger("Attack");
+    }
+
     protected void MoveSpeed()
     {
         Animator.SetFloat(JumpTriggerName, CommonMove.VerticalSpeed);

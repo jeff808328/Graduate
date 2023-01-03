@@ -20,8 +20,8 @@ public class EnemyBackGroundData : MonoBehaviour
 
     #region CalDistance
 
-    [SerializeField] private Transform PlayerPos;
-    private float DistanceXray;
+    public Transform PlayerPos;
+    [HideInInspector] public float DistanceXray;
     public int PlayerDirection;
 
     // ¶ZÂ÷­È
@@ -83,7 +83,13 @@ public class EnemyBackGroundData : MonoBehaviour
 
     void Update()
     {
-        RayCastSourcePos = new Vector2(transform.position.x + (0.5f * RayCastDirection.x), transform.position.y + 1);
+        RayCastSourcePos = new Vector2(transform.position.x + (1f * RayCastDirection.x), transform.position.y + 0.1f );
+
+        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * PlayerDirection,
+                        transform.position.y + BoxHighAdjust * transform.localScale.y);
+
+        BoxSize = new Vector2(transform.lossyScale.x * BoxWide, transform.lossyScale.y * BoxHeight);
+
 
         SetRayDirection();
 
@@ -100,7 +106,7 @@ public class EnemyBackGroundData : MonoBehaviour
     {
         RaycastHit2D RH = Physics2D.Raycast(RayCastSourcePos, RayCastDirection, Mathf.Infinity);
 
-        Debug.Log(RH.collider.name);
+      //  Debug.Log(RH.collider.name);
 
         if (RH.collider.tag != "Player")
         {
@@ -108,7 +114,7 @@ public class EnemyBackGroundData : MonoBehaviour
 
             PlayerPos = null;
 
-            Debug.Log("lose player");
+        //    Debug.Log("lose player");
         }
         else if (RH.collider.tag == "Player")
         {
@@ -116,7 +122,7 @@ public class EnemyBackGroundData : MonoBehaviour
 
             PlayerPos = RH.collider.gameObject.transform;
 
-            Debug.Log("find player" + RH.collider.name);
+         //   Debug.Log("find player" + RH.collider.name);
         }
 
     }
@@ -140,10 +146,6 @@ public class EnemyBackGroundData : MonoBehaviour
 
     private void CheckAttack()
     {
-        BoxCenter = new Vector2(transform.position.x + BoxWideAdjust * PlayerDirection,
-                           transform.position.y + BoxHighAdjust * transform.localScale.y);
-
-        BoxSize = new Vector2(transform.lossyScale.x * BoxWide, transform.lossyScale.y * BoxHeight);
 
 
         AttackAble = Physics2D.OverlapBox(BoxCenter, BoxSize, 0, PlayerLayer);

@@ -16,6 +16,9 @@ public class EnemyStateManager : MonoBehaviour
     public StateJump StateJump = new StateJump();
     public StateDash StateDash = new StateDash();
 
+    public StateMutipleThron StateMutipleThron = new StateMutipleThron();
+    public StateSingleThron StateSingleThron = new StateSingleThron();
+
     #endregion
 
     #region Component
@@ -23,6 +26,7 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public EnemyMove EnemyMove;
     [HideInInspector] public GroundAndWallDetect GroundAndWallDetect;
     [HideInInspector] public EnemyAttack EnemyAttack;
+    [HideInInspector] public CommonAnimator CommonAnimator;
     #endregion
 
     #region Value
@@ -32,31 +36,45 @@ public class EnemyStateManager : MonoBehaviour
     public float FlipCD; // 翻轉間隔 
 
     [HideInInspector] public float LastAttackTime;
-    public float AttackCD; // 翻轉間隔 
+    public float AttackCD; // 攻擊間隔 
     #endregion
 
     #region Control
     public bool UsePatrol;
     #endregion
 
-    void Start()
+    public GameObject Thron;
+
+
+    public void ComponentSet()
     {
         EnemyBackGroundData = this.GetComponent<EnemyBackGroundData>();
         EnemyMove = this.GetComponent<EnemyMove>();
         GroundAndWallDetect = this.GetComponent<GroundAndWallDetect>();
         EnemyAttack = this.GetComponent<EnemyAttack>();
+        CommonAnimator = this.GetComponent<CommonAnimator>();
+    }
 
+    public void InitSet()
+    {
         CurrentState = StateIdle;
         CurrentState.EnterState(this);
 
         MoveDirection = 0;
     }
 
+    private void Start()
+    {
+        ComponentSet();
+
+        InitSet();
+    }
+
     void FixedUpdate()
     {
         CurrentState.UpdateState(this);
 
-        if(GroundAndWallDetect.WallTouching && LastFlipTime + FlipCD < Time.time)
+        if (GroundAndWallDetect.WallTouching && LastFlipTime + FlipCD < Time.time)
         {
             StateManagerFlip();
         }

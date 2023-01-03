@@ -154,7 +154,7 @@ public class CommonMove : MonoBehaviour
 
     public void Brake() // 急煞 將速度與加速度歸0
     {
-        Debug.Log("brake");
+      //  Debug.Log("brake");
         HorizonSpeed = 0;
         AddSpeedAdjust = 0;
     }

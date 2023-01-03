@@ -6,7 +6,7 @@ public class CommonAttack : MonoBehaviour
 {
     #region Position
 
-    protected Vector2 BoxCenter;
+    protected Vector3 BoxCenter;
 
     [SerializeField]
     private float BoxWideAdjust;
@@ -33,6 +33,8 @@ public class CommonAttack : MonoBehaviour
     public float BeforeAttack;
     public float Attacking;
     public float AfterAttack;
+
+    public GameObject HitEffect;
 
     protected CommonAnimator Animator;
     protected CommonMove CommonMove;
@@ -62,6 +64,9 @@ public class CommonAttack : MonoBehaviour
         // 檢查有沒有可攻擊物件
         var AttackDectect = Physics2D.OverlapBoxAll(BoxCenter, BoxSize, 0, Attackable);
 
+        //if (HitEffect != null)
+        //    Instantiate(HitEffect,this.gameObject.transform);
+
 
         yield return new WaitForSecondsRealtime(Attacking);
         // 動作中
@@ -72,13 +77,13 @@ public class CommonAttack : MonoBehaviour
         foreach (var Attacked in AttackDectect)
         {
             Attacked.GetComponent<CommonHP>().Hurt(ChatacterData.Atk);
-            Debug.Log(Attacked.gameObject.name);
+       //     Debug.Log(Attacked.gameObject.name);
         }
 
         yield return new WaitForSecondsRealtime(AfterAttack);
         // 後搖       
 
-        Debug.Log("Prepare Next Attack");
+    //    Debug.Log("Prepare Next Attack");
     }
 
     protected void UpdataCollision()

@@ -9,7 +9,7 @@ public class CommonHP : MonoBehaviour
 
     private float HP;
     private float Def;
-    private float HurtAdjust;
+    [SerializeField] private float HurtAdjust;
 
     protected Animator Animator;
 
@@ -25,6 +25,7 @@ public class CommonHP : MonoBehaviour
         Def = ChatacterData.Def;
         HurtAdjust = 1;
 
+        Slider.maxValue = HP;
         Fill.color = Gradient.Evaluate(1f);
 
         Animator = this.GetComponent<Animator>();
@@ -41,6 +42,8 @@ public class CommonHP : MonoBehaviour
             Animator.SetTrigger("Hurt");
 
         DieCheck();
+
+        Debug.Log(this.name + HP.ToString());
     }
 
     public void HurtAdjustSet(int Value)
